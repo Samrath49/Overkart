@@ -5,19 +5,24 @@ import useStyle from './styles';
 
 const Product = ({ product }) => {
     const style = useStyle();
+
+
+    // console.log(product);
+    // return <div><h1>test</h1></div>
+
     return (
         <Card className={style.root}>
-            <CardMedia className={style.media} image={product.image} title={product.name} />
+            <CardMedia className={style.media} image={product.image.url} title={product.name} />
             <CardContent>
                 <div className={style.CardContent}>
                     <Typography variant='h5' gutterBottom>
                         {product.name}
                     </Typography>
                     <Typography variant='h5'>
-                        {product.price}
+                        {product.price.formatted_with_symbol}
                     </Typography>
                 </div>
-                <Typography variant='body2' color='textSecondary'>{product.description}</Typography>
+                <Typography dangerouslySetInnerHTML={{ __html: product.description }} variant='body2' color='textSecondary' />
             </CardContent>
             <CardActions disableSpacing className={style.cardActions}>
                 <IconButton aria-label='Add to Cart'>
