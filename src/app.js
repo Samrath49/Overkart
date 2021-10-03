@@ -12,7 +12,7 @@ const App = () => {
     }
 
     const fetchCart = async () => {
-        const cart = await commerce.cart.retrieve();
+        const cart = await commerce.cart.retrieve()
         setCart(cart);
     }
 
