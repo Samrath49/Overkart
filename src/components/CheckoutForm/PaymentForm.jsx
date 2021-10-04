@@ -7,32 +7,47 @@ import Review from './Review';
 const stripePromise = loadStripe(process.env.REACT_APP_PUBLIC_STRIPE_KEY);
 
 const PaymentForm = ({ checkoutToken, backStep }) => {
-    const handleSubmit = (event, elemnts, stripe) => {
+    const handleSubmit = (event, elements, stripe) => {
         event.preventDefault();
+
+        if (!stripe || !elements) return;
+
+        const cartElement = elements.getElement(CardElement);
+
+        const { error, paymentMethod } = await stripe.createPaymentMethod({ type: 'card', card: CardElement });
+
+        if (error) {
+            console.log(error);
+        } else {
+            const orderData = {
+                line_items: checkoutToken.live.line_items,
+                customerL { firstname: shippingData.firstName, lastname: shippingData.lastName, email: shippingData.email }
+        }
     }
-    return (
-        <>
-            <Review checkoutToken={checkoutToken} />
-            <Divider />
-            <Typography variant="h6" gutterBottom style={{ margin: '20px 0' }}>Payment Method</Typography>
-            <Elements stripe={stripePromise}>
-                <ElementsConsumer>
-                    {({ elements, stripe }) => (
-                        <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
-                            <CardElement />
-                            <br /><br />
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Button variant="outlined" onClick={backStep}>Back</Button>
-                                <Button type="submit" variant="contained" disable={!stripe} color="primary">
-                                    Pay {checkoutToken.live.subtotal.formatted_with_symbol}
-                                </Button>
-                            </div>
-                        </form>
-                    )}
-                </ElementsConsumer>
-            </Elements>
-        </>
-    )
+}
+return (
+    <>
+        <Review checkoutToken={checkoutToken} />
+        <Divider />
+        <Typography variant="h6" gutterBottom style={{ margin: '20px 0' }}>Payment Method</Typography>
+        <Elements stripe={stripePromise}>
+            <ElementsConsumer>
+                {({ elements, stripe }) => (
+                    <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
+                        <CardElement />
+                        <br /><br />
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Button variant="outlined" onClick={backStep}>Back</Button>
+                            <Button type="submit" variant="contained" disable={!stripe} color="primary">
+                                Pay {checkoutToken.live.subtotal.formatted_with_symbol}
+                            </Button>
+                        </div>
+                    </form>
+                )}
+            </ElementsConsumer>
+        </Elements>
+    </>
+)
 }
 
 export default PaymentForm
