@@ -17,9 +17,9 @@ const AddressForm = ({ checkoutToken }) => {
     const methods = useForm();
 
     const fetchShippingCountries = async (checkoutTokenId) => {
-        const { countries } = await commerse.services.localeListShippingCountries(checkoutTokenId);
+        const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId);
         console.log(countries);
-        setShoppingCountries(countries);
+        setShippingCountries(countries);
     }
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const AddressForm = ({ checkoutToken }) => {
                         <FormInput required name='city' label='City' />
                         <FormInput required name='zip' label='ZIP / Postal Code' />
 
-                        <Grid item xs={12} sm={6}>
+                        {/* <Grid item xs={12} sm={6}>
                             <InputLabel>Shipping Country</InputLabel>
                             <Select value={ } fullWidth onChange={ }>
                                 <MenuItem key={ } value={ }>
@@ -64,7 +64,7 @@ const AddressForm = ({ checkoutToken }) => {
                                     Select Me
                                 </MenuItem>
                             </Select>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </form>
             </FormProvider>
