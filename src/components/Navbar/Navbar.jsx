@@ -25,7 +25,8 @@ const Navbar = ({ totalItems }) => {
                                     <ShoppingCart />
                                 </Badge>
                             </IconButton>
-                        </div>)}
+                        </div>
+                    )}
                 </Toolbar>
             </AppBar>
         </>

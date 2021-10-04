@@ -2,14 +2,16 @@ import React from 'react'
 import { Container, Typography, Button, Grid } from '@material-ui/core';
 import useStyle from './styles';
 import CartItem from './CartItem/CartItem';
+import { Link } from 'react-router-dom';
 
 const Cart = ({ cart }) => {
 
     const style = useStyle();
 
     const EmptyCart = () => {
-        <Typography variant="subtitle1">You don't have any items currently in your cart, start adding some items.</Typography>
-        // <Link className={style.link} to='/'>
+        <Typography variant="subtitle1">You don't have any items currently in your cart,
+            <Link className={style.link} to='/'>start adding some items</Link>!
+        </Typography>
     };
 
     const FilledCart = () => {
