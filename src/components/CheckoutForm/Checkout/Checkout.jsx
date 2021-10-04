@@ -9,7 +9,7 @@ const steps = ['Shipping address', 'Payment details'];
 
 const Checkout = ({ cart }) => {
     const style = useStyles();
-    const [activeStep, setActiveStep] = useState(1);
+    const [activeStep, setActiveStep] = useState(0);
     const [checkoutToken, setCheckoutToken] = useState(null);
 
     useEffect(() => {
