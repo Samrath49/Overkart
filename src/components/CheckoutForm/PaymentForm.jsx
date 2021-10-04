@@ -4,9 +4,12 @@ import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js
 import { loadStripe } from '@stripe/stripe-js';
 import Review from './Review';
 
-const stripePromise = loadStripe('...');
+const stripePromise = loadStripe(process.env.REACT_APP_PUBLIC_STRIPE_KEY);
 
 const PaymentForm = ({ checkoutToken, backStep }) => {
+    const handleSubmit = (event, elemnts, stripe) => {
+        event.preventDefault();
+    }
     return (
         <>
             <Review checkoutToken={checkoutToken} />
@@ -15,7 +18,7 @@ const PaymentForm = ({ checkoutToken, backStep }) => {
             <Elements stripe={stripePromise}>
                 <ElementsConsumer>
                     {({ elements, stripe }) => (
-                        <form>
+                        <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
                             <CardElement />
                             <br /><br />
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
