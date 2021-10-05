@@ -30,6 +30,7 @@ const Checkout = ({ cart }) => {
 
     const next = (data) => {
         setShippingData(data);
+        console.log(data);
         nextStep();
     }
 
