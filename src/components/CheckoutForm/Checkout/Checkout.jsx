@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Stepper, Step, StepLabel, Typography, CircularProgress, Divider, Button } from '@material-ui/core';
+import { Paper, Stepper, Step, StepLabel, Typography, CircularProgress, Divider, Button, CssBaseline } from '@material-ui/core';
 import useStyles from './styles';
 import AddressForm from '../AddressForm';
 import PaymentForm from '../PaymentForm';
 import { commerce } from '../../../lib/commerce';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 
 const steps = ['Shipping address', 'Payment details'];
 
 const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
+
+    const history = useHistory();
     const style = useStyles();
     const [activeStep, setActiveStep] = useState(0);
     const [checkoutToken, setCheckoutToken] = useState(null);
@@ -21,7 +23,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
                 console.log(token);
                 setCheckoutToken(token);
             } catch (error) {
-                console.log(error);
+                history.pushState('/');
             }
         }
         generateToken();
@@ -66,6 +68,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
 
     return (
         <>
+            <CssBaseline />
             <div className={style.toolbar} />
             <main className={style.layout}>
                 <Paper className={style.paper}>
