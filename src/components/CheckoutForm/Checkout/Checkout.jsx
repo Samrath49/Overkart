@@ -4,6 +4,8 @@ import useStyles from './styles';
 import AddressForm from '../AddressForm';
 import PaymentForm from '../PaymentForm';
 import { commerce } from '../../../lib/commerce';
+import { Link } from 'react-router-dom';
+
 
 const steps = ['Shipping address', 'Payment details'];
 
@@ -19,7 +21,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
                 console.log(token);
                 setCheckoutToken(token);
             } catch (error) {
-
+                console.log(error);
             }
         }
         generateToken();
@@ -38,13 +40,28 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
         ? <AddressForm checkoutToken={checkoutToken} next={next} />
         : <PaymentForm shippingData={shippingData} checkoutToken={checkoutToken} backStep={backStep} onCaptureCheckout={onCaptureCheckout} nextStep={nextStep} />
 
-    const Confirmation = () => {
-        return (
-
+    let Confirmation = () => order.customer ? (
+        <>
             <div>
-                Confirmation
+                <Typography variant="h5">Thank you for your purchase, firstname lastname </Typography>
+                <Divider className={style.divider} />
+                <Typography variant="subtitle2">Order ref: red</Typography>
             </div>
-        )
+            <br />
+            <Button component={Link} to="/" variant="outlined" type="button" >Back to home</Button>
+        </>
+    ) : (
+        <div className={style.spinner}>
+            <CircularProgress />
+        </div>
+    );
+
+    if (error) {
+        <>
+            <Typography variant="h5">Error: {error}</Typography>
+            <br />
+            <Button component={Link} to="/" vairant="outlined" type="button">Back to Home</Button>
+        </>
     }
 
     return (
@@ -66,5 +83,6 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
         </>
     )
 }
+// }
 
 export default Checkout
