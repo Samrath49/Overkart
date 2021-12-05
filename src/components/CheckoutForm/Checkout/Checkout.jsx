@@ -17,11 +17,11 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
     const [checkoutToken, setCheckoutToken] = useState(null);
     const [shippingData, setShippingData] = useState({});
     const [isFinshed, setIsFinshed] = useState(false);
+
     useEffect(() => {
         const generateToken = async () => {
             try {
                 const token = await commerce.checkout.generateToken(cart.id, { type: 'cart' });
-                console.log(token);
                 setCheckoutToken(token);
             } catch (error) {
                 history.pushState('/');
@@ -33,28 +33,35 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
     const nextStep = () => setActiveStep((prevActiveStep) => prevActiveStep + 1)
     const backStep = () => setActiveStep((prevActiveStep) => prevActiveStep - 1)
 
+    const timeout = () => {
+        setTimeout(() => {
+            setIsFinshed(true);
+        }, 4321);
+    }
+
     const next = (data) => {
         setShippingData(data);
-        console.log(data);
         nextStep();
     }
 
     const Form = () => activeStep === 0
         ? <AddressForm checkoutToken={checkoutToken} next={next} />
-        : <PaymentForm shippingData={shippingData} checkoutToken={checkoutToken} backStep={backStep} onCaptureCheckout={onCaptureCheckout} nextStep={nextStep} />
-
-    const timeout = () => {
-        setTimeout(() => {
-            console.log('Hello World!');
-        }, 4321);
-    }
+        : <PaymentForm shippingData={shippingData} checkoutToken={checkoutToken} backStep={backStep} onCaptureCheckout={onCaptureCheckout} nextStep={nextStep} timeout={timeout} />
 
     let Confirmation = () => order.customer ? (
         <>
             <div>
-                <Typography variant="h5">Thank you for your purchase, {order.customer.firstname} {order.customer.lastname} </Typography>
+                <Typography variant="h5">Thank you for your purchase </Typography>
                 <Divider className={style.divider} />
-                <Typography variant="subtitle2">Order ref: {order.customer_reference}</Typography>
+            </div>
+            <br />
+            <Button component={Link} to="/" variant="outlined" type="button" >Back to home</Button>
+        </>
+    ) : isFinshed ? (
+        <>
+            <div>
+                <Typography variant="h5">Thank you for your purchase 🔥</Typography>
+                <Divider className={style.divider} />
             </div>
             <br />
             <Button component={Link} to="/" variant="outlined" type="button" >Back to home</Button>
@@ -62,7 +69,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
     ) : (
         <div className={style.spinner}>
             <CircularProgress />
-        </div>
+        </div >
     );
 
     if (error) {
