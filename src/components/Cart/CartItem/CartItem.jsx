@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Button, Card, CardActions, CreateContent, CardMedia, CardContent } from '@material-ui/core'
+import { Typography, Button, Card, CardActions, CardMedia, CardContent } from '@material-ui/core'
 import useStyle from './style';
 
 const CartItem = ({ item, handleUpdateCartQty, handleRemoveFromCart }) => {
